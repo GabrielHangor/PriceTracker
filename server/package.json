@@ -1,0 +1,27 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "seed": "tsx prisma/seed.ts",
+    "scrape": "tsx src/scrapping/index.ts",
+    "dev": "tsx watch src/main.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.15",
+    "prisma": "^5.19.1",
+    "tsx": "^4.19.0"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.12.2",
+    "@hono/zod-validator": "^0.2.2",
+    "@prisma/client": "^5.19.1",
+    "csv-writer": "^1.6.0",
+    "nodemailer": "^6.9.14",
+    "playwright": "^1.46.1"
+  }
+}
