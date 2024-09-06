@@ -15,6 +15,7 @@
     "jsxImportSource": "hono/jsx",
     "baseUrl": ".",
     "noImplicitOverride": true,
+    "composite": true,
     "paths": {
       "@/*": ["src/*"]
     }

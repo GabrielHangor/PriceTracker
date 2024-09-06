@@ -1,5 +1,5 @@
+import type { AppType } from "../../server/src/main.js";
 import { hc } from "hono/client";
-import { type AppType } from "@server/main";
 
 const client = hc<AppType>("/api");
 

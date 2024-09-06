@@ -9,6 +9,8 @@ import { onMounted } from "vue";
 
 async function fetchCategories() {
   const response = await client.categories.$get();
+  console.log(response);
+
   return response;
 }
 
