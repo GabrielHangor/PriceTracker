@@ -7,15 +7,14 @@
 import client from "@/apiClient";
 import { onMounted } from "vue";
 
-async function fetchCategories() {
-  const response = await client.categories.$get();
-  console.log(response);
+async function fetchProducts() {
+  const response = await client.products.$get({ query: {} });
 
   return response;
 }
 
 onMounted(async () => {
-  const categories = await fetchCategories();
-  console.log(await categories.json());
+  const response = await fetchProducts();
+  const products = await response.json();
 });
 </script>
