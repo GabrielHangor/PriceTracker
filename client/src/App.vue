@@ -6,15 +6,10 @@
 <script setup lang="ts">
 import client from "@/apiClient";
 import { onMounted } from "vue";
-
-async function fetchProducts() {
-  const response = await client.products.$get({ query: {} });
-
-  return response;
-}
+import { TimeRange } from "../../server/src/types";
 
 onMounted(async () => {
-  const response = await fetchProducts();
-  const products = await response.json();
+  const changes = await client.api.changes.$get({ query: { range: TimeRange.TOTAL } });
+  console.log(changes);
 });
 </script>

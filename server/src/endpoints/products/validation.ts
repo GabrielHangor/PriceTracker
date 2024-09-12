@@ -2,6 +2,7 @@ import { ProductCategoryEnum, SellerEnum } from "@/types.js";
 import { z } from "zod";
 
 export const productSchema = z.object({
+  name: z.string().optional(),
   page: z.coerce.number().optional().default(1),
   pageSize: z.coerce.number().max(50).optional().default(20),
   categoryId: z

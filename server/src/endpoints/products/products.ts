@@ -20,17 +20,17 @@ const productsRouter = new Hono()
     return c.json(product);
   })
   .get("/", zValidator("query", productSchema), async (c) => {
-    const { page, pageSize, categoryId, sellerId } = c.req.valid("query");
+    const { page, pageSize, categoryId, sellerId, name } = c.req.valid("query");
 
     const [products, count] = await prisma.$transaction([
       prisma.product.findMany({
         take: pageSize,
         skip: (page - 1) * pageSize,
         include: { category: true, seller: true },
-        where: { categoryId, sellerId },
+        where: { categoryId, sellerId, name: { contains: name } },
       }),
 
-      prisma.product.count({ where: { categoryId, sellerId } }),
+      prisma.product.count({ where: { categoryId, sellerId, name: { contains: name } } }),
     ]);
 
     return c.json(new PaginatedItems(products, count, page, pageSize));

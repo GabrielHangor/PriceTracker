@@ -12,3 +12,10 @@ export enum ProductCategoryEnum {
 export enum SellerEnum {
   AV = 1,
 }
+
+export enum TimeRange {
+  DAILY = "DAILY",
+  WEEKLY = "WEEKLY",
+  MONTHLY = "MONTHLY",
+  TOTAL = "TOTAL",
+}

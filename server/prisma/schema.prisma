@@ -34,6 +34,7 @@ model Product {
   seller       Seller          @relation(fields: [sellerId], references: [id])
   sellerId     Int
   priceHistory PriceHistory[]
+  priceChange  PriceChange[]
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @default(now()) @updatedAt
 }
@@ -44,4 +45,17 @@ model PriceHistory {
   productId Int
   date      DateTime @default(now())
   price     Decimal
+}
+
+model PriceChange {
+  id           Int      @id @default(autoincrement())
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId    Int
+  minPrice     Decimal
+  maxPrice     Decimal
+  timeRange    String
+  deltaPercent Decimal
+  updatedAt    DateTime @default(now()) @updatedAt
+
+  @@unique([productId, timeRange])
 }

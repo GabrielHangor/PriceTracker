@@ -11,7 +11,7 @@ export class ScrappingError extends Error {
   }
 }
 
-export class DbPopulatingerror extends Error {
+export class DbPopulatingError extends Error {
   constructor(message: string, cause?: Error) {
     super(message);
     this.name = "DbPopulatingerror";

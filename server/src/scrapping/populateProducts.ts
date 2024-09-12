@@ -1,4 +1,4 @@
-import { DbPopulatingerror } from "@/errors/errors.js";
+import { DbPopulatingError } from "@/errors/errors.js";
 import type { ProductSummary } from "@/scrapping/types.js";
 import prisma from "prisma/client.js";
 
@@ -60,7 +60,7 @@ export async function populateProducts(products: ProductSummary[]) {
     });
   } catch (e) {
     if (e instanceof Error) {
-      throw new DbPopulatingerror("Error occurred while populating products in database", e);
+      throw new DbPopulatingError("Error occurred while populating products in database", e);
     }
   }
 }
