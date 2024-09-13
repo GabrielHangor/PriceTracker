@@ -10,6 +10,9 @@ import { TimeRange } from "../../server/src/types";
 
 onMounted(async () => {
   const changes = await client.api.changes.$get({ query: { range: TimeRange.TOTAL } });
-  console.log(changes);
+  const productChanges = await client.api.changes[":productId"].$get({
+    query: { range: TimeRange.TOTAL },
+    param: { productId: "538" },
+  });
 });
 </script>

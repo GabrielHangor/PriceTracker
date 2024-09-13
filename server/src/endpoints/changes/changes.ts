@@ -1,16 +1,21 @@
 import { productChangesParamSchema, changesQuerySchema } from "@/endpoints/changes/validation.js";
+import { cacheMiddleware } from "@/middlewares/cache.js";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import prisma from "prisma/client.js";
 
 const changesRouter = new Hono()
-  .get("/", zValidator("query", changesQuerySchema), async (c) => {
+  .get("/", cacheMiddleware(), zValidator("query", changesQuerySchema), async (c) => {
     const { range } = c.req.valid("query");
 
     const getChangesQuery = prisma.priceChange.findMany({
       where: { timeRange: range, deltaPercent: { not: 0 } },
       orderBy: { deltaPercent: "desc" },
-      include: { product: { select: { name: true, imageUrl: true, seller: { select: { name: true } } } } },
+      include: {
+        product: {
+          select: { name: true, imageUrl: true, category: true, seller: { select: { name: true } } },
+        },
+      },
       take: 20,
     });
 
@@ -26,6 +31,7 @@ const changesRouter = new Hono()
   })
   .get(
     "/:productId",
+    cacheMiddleware(),
     zValidator("query", changesQuerySchema),
     zValidator("param", productChangesParamSchema),
     async (c) => {
@@ -34,7 +40,11 @@ const changesRouter = new Hono()
 
       const changes = await prisma.priceChange.findMany({
         where: { timeRange: range, productId, deltaPercent: { not: 0 } },
-        include: { product: { select: { name: true, imageUrl: true, seller: { select: { name: true } } } } },
+        include: {
+          product: {
+            select: { name: true, imageUrl: true, category: true, seller: { select: { name: true } } },
+          },
+        },
       });
 
       return c.json(changes);
