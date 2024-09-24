@@ -1,0 +1,13 @@
+@import "primeicons/primeicons.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* .router-link-exact-active {
+  color: var(--p-primary-700);
+}
+
+.theme-dark .router-link-exact-active {
+  background-color: var(--p-primary-50) !important;
+} */

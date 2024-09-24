@@ -1,11 +1,10 @@
 import { productChangesParamSchema, changesQuerySchema } from "@/endpoints/changes/validation.js";
-import { cacheMiddleware } from "@/middlewares/cache.js";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import prisma from "prisma/client.js";
 
 const changesRouter = new Hono()
-  .get("/", cacheMiddleware(), zValidator("query", changesQuerySchema), async (c) => {
+  .get("/", zValidator("query", changesQuerySchema), async (c) => {
     const { range } = c.req.valid("query");
 
     const getChangesQuery = prisma.priceChange.findMany({
@@ -31,7 +30,6 @@ const changesRouter = new Hono()
   })
   .get(
     "/:productId",
-    cacheMiddleware(),
     zValidator("query", changesQuerySchema),
     zValidator("param", productChangesParamSchema),
     async (c) => {

@@ -1,18 +1,10 @@
 <template>
-  <header><h1></h1></header>
-  <RouterView />
+  <AppHeader />
+  <main class="container mx-auto p-5">
+    <RouterView />
+  </main>
 </template>
 
 <script setup lang="ts">
-import client from "@/apiClient";
-import { onMounted } from "vue";
-import { TimeRange } from "../../server/src/types";
-
-onMounted(async () => {
-  const changes = await client.api.changes.$get({ query: { range: TimeRange.TOTAL } });
-  const productChanges = await client.api.changes[":productId"].$get({
-    query: { range: TimeRange.TOTAL },
-    param: { productId: "538" },
-  });
-});
+import AppHeader from "@/components/AppHeader.vue";
 </script>
