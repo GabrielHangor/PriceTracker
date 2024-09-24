@@ -1,15 +1,15 @@
 <template>
   <Menubar :model="items" class="container mx-auto">
     <template #item="{ item }">
-      <RouterLink :to="{ name: item.name }">
+      <RouterLink :to="{ name: item.name }" #default="{ isExactActive }">
         <div class="flex gap-4 items-center p-2">
-          <span :class="item.icon" />
+          <span :class="[{ 'font-semibold': isExactActive }, item.icon]" />
           <span>{{ item.label }}</span>
         </div>
       </RouterLink>
     </template>
     <template #end>
-      <Button :icon="PrimeIcons.SUN" rounded text @click="toggleDarkMode" />
+      <Button :icon="PrimeIcons.SUN" outlined text rounded @click="toggleDarkMode" />
     </template>
   </Menubar>
 </template>

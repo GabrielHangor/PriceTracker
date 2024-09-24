@@ -1,18 +1,16 @@
 <template>
-  <div>{{ JSON.stringify(changes) }}</div>
+  <MainPageChangesCard v-model:time-range="timeRange" :changes="changes" />
 </template>
 
 <script setup lang="ts">
-import client from "@/apiClient";
-import { onMounted, shallowRef } from "vue";
+import { ref, shallowRef } from "vue";
 import { TimeRange } from "../../../server/src/types";
+import MainPageChangesCard from "@/components/MainPageChangesCard.vue";
+import type { InferResponseType } from "hono";
+import type client from "@/apiClient";
 
-const changes = shallowRef([]);
+export type Changes = InferResponseType<typeof client.api.changes.$get>;
 
-onMounted(async () => {
-  const localChanges = await client.api.changes.$get({ query: { range: TimeRange.TOTAL } });
-  changes.value = await localChanges.json();
-
-  console.log(localChanges);
-});
+const timeRange = ref(TimeRange.DAILY);
+const changes = shallowRef<Changes | null>(null);
 </script>

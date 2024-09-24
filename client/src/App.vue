@@ -1,6 +1,6 @@
 <template>
   <AppHeader />
-  <main class="container mx-auto p-5">
+  <main class="container mx-auto py-5">
     <RouterView />
   </main>
 </template>
