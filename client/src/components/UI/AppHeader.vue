@@ -21,7 +21,7 @@ import Menubar from "primevue/menubar";
 import type { MenuItem } from "primevue/menuitem";
 
 const items: MenuItem[] = [
-  { label: "PriceTracker", icon: PrimeIcons.EYE, name: "main" },
+  { label: "Изменения", icon: PrimeIcons.CHART_LINE, name: "changes" },
   { label: "Продукты", icon: PrimeIcons.DATABASE, name: "products" },
 ];
 

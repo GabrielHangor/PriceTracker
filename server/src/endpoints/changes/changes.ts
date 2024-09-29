@@ -1,11 +1,12 @@
 import { productChangesParamSchema, changesQuerySchema } from "@/endpoints/changes/validation.js";
+import { PaginatedItems } from "@/utils/PaginatedItems.js";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import prisma from "prisma/client.js";
 
 const changesRouter = new Hono()
   .get("/", zValidator("query", changesQuerySchema), async (c) => {
-    const { range } = c.req.valid("query");
+    const { range, page, pageSize } = c.req.valid("query");
 
     const getChangesQuery = prisma.priceChange.findMany({
       where: { timeRange: range, deltaPercent: { not: 0 } },
@@ -15,16 +16,21 @@ const changesRouter = new Hono()
           select: { name: true, imageUrl: true, category: true, seller: { select: { name: true } } },
         },
       },
-      take: 20,
+      take: pageSize,
+      skip: (page - 1) * pageSize,
     });
 
-    const [changes, increases, reductions] = await prisma.$transaction([
+    const [productPriceChanges, increases, reductions] = await prisma.$transaction([
       getChangesQuery,
       prisma.priceChange.count({ where: { timeRange: range, deltaPercent: { gt: 0 } } }),
       prisma.priceChange.count({ where: { timeRange: range, deltaPercent: { lt: 0 } } }),
     ]);
 
-    const changesWithCount = { changes, increases, reductions };
+    const changesWithCount = {
+      productPriceChanges: new PaginatedItems(productPriceChanges, increases + reductions, page, pageSize),
+      increases,
+      reductions,
+    };
 
     return c.json(changesWithCount);
   })

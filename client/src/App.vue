@@ -1,10 +1,10 @@
 <template>
   <AppHeader />
-  <main class="container mx-auto py-5">
+  <main class="container mx-auto ">
     <RouterView />
   </main>
 </template>
 
 <script setup lang="ts">
-import AppHeader from "@/components/AppHeader.vue";
+import AppHeader from "@/components/UI/AppHeader.vue";
 </script>

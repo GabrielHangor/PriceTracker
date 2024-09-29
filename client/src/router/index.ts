@@ -4,9 +4,9 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
-      name: "main",
-      component: () => import("@/views/MainPage.vue"),
+      path: "/changes",
+      name: "changes",
+      component: () => import("@/views/ChangesPage.vue"),
     },
     {
       path: "/products",
