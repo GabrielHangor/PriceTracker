@@ -6,13 +6,15 @@
     scroll-height="600px"
     paginator
     lazy
+    removable-sort
     :loading="isLoading"
     :always-show-paginator="false"
     :rows-per-page-options="[5, 10, 25, 50]"
-    :rows="modelValue.rows"
+    :rows="modelValue.pageSize"
     :total-records="paginatedChanges.productPriceChanges.totalItems"
-    :first="(modelValue.page - 1) * modelValue.rows"
+    :first="(modelValue.page - 1) * modelValue.pageSize"
     @page="onPageChange"
+    @sort="onSortChange"
   >
     <template #header>
       <section class="flex flex-col gap-3 pb-4">
@@ -37,12 +39,12 @@
     <Column field="product.name" header="Название" />
     <Column field="product.category.name" header="Категория" />
     <Column field="product.seller.name" header="Магазин" />
-    <Column field="minPrice" header="Мин. цена">
+    <Column field="minPrice" header="Мин. цена" sortable>
       <template #body="slotProps">
         <span>{{ slotProps.data.minPrice }} ₽</span>
       </template>
     </Column>
-    <Column field="maxPrice" header="Макс. цена">
+    <Column field="maxPrice" header="Макс. цена" sortable>
       <template #body="slotProps">
         <span>{{ slotProps.data.maxPrice }} ₽</span>
       </template>
@@ -62,21 +64,31 @@ import ChangesSummary from "@/components/business/changesPage/ChangesSummary.vue
 import ChangesSummaryTitle from "@/components/business/changesPage/ChangesSummaryTitle.vue";
 import type { Changes } from "@/queries/useChangesQuery";
 import Column from "primevue/column";
-import DataTable from "primevue/datatable";
+import DataTable, { type DataTablePageEvent, type DataTableSortEvent } from "primevue/datatable";
 import Image from "primevue/image";
 import type { TimeRange } from "../../../../../server/src/types";
 import type { DataTableFiltersAndSortsModel } from "@/composables/useDataTableFiltersAndSorts";
 
-const props = defineProps<{ paginatedChanges: Changes; timeRange: TimeRange; isLoading: boolean }>();
+const props = defineProps<{ paginatedChanges: Changes; timeRange: TimeRange; isLoading?: boolean }>();
 const modelValue = defineModel<DataTableFiltersAndSortsModel>("filtersAndSorts", { required: true });
 
-function onPageChange(event: DataTableFiltersAndSortsModel) {
+function onPageChange(event: DataTablePageEvent) {
   modelValue.value = {
-    rows: event.rows,
+    pageSize: event.rows,
     filters: event.filters,
     sortField: event.sortField,
     sortOrder: event.sortOrder,
     page: event.page + 1,
+  };
+}
+
+function onSortChange(event: DataTableSortEvent) {
+  modelValue.value = {
+    pageSize: event.rows,
+    filters: event.filters,
+    sortField: event.sortField,
+    sortOrder: event.sortOrder,
+    page: 1,
   };
 }
 </script>

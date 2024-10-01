@@ -1,21 +1,31 @@
 import type { DataTablePageEvent } from "primevue/datatable";
-import { ref, watch, type Ref } from "vue";
+import { computed, ref, watch, type Ref } from "vue";
 
 export default function useDataTableFiltersAndSorts<T extends any[]>(
   watchRefs?: [...{ [K in keyof T]: Ref<T[K]> }],
 ) {
   const initialState: DataTableFiltersAndSortsModel = {
     page: 1,
-    rows: 10,
+    pageSize: 10,
     filters: {},
-    sortOrder: null,
+    sortOrder: undefined,
     sortField: undefined,
   };
 
   const filtersAndSortsModel = ref<DataTableFiltersAndSortsModel>({ ...initialState });
 
+  const filtersAndSortsQuery = computed(() => {
+    const queriesObj: Record<string, string> = {};
+
+    for (const [key, value] of Object.entries(filtersAndSortsModel.value)) {
+      if (value) queriesObj[key] = typeof value === "object" ? JSON.stringify(value) : value.toString();
+    }
+
+    return queriesObj;
+  });
+
   watch(
-    () => filtersAndSortsModel.value.rows,
+    () => filtersAndSortsModel.value.pageSize,
     () => {
       filtersAndSortsModel.value.page = 1;
     },
@@ -29,10 +39,10 @@ export default function useDataTableFiltersAndSorts<T extends any[]>(
     filtersAndSortsModel.value = { ...initialState };
   }
 
-  return { filtersAndSortsModel };
+  return { filtersAndSortsModel, filtersAndSortsQuery };
 }
 
 export type DataTableFiltersAndSortsModel = Omit<
   DataTablePageEvent,
-  "originalEvent" | "first" | "filterMatchModes" | "pageCount" | "multiSortMeta"
->;
+  "originalEvent" | "first" | "filterMatchModes" | "pageCount" | "multiSortMeta" | "rows"
+> & { pageSize: number };

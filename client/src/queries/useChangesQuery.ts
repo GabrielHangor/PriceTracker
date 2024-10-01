@@ -1,16 +1,16 @@
 import client from "@/apiClient";
 import { useQuery } from "@tanstack/vue-query";
 import { TimeRange } from "../../../server/src/types";
-import type { Ref } from "vue";
+import { computed, type Ref } from "vue";
 import type { InferResponseType } from "hono";
 import type { DataTableFiltersAndSortsModel } from "@/composables/useDataTableFiltersAndSorts";
 
 export default function useChangesQuery(
   timeRange: Ref<TimeRange>,
-  filtersAndSorts: Ref<DataTableFiltersAndSortsModel>,
+  filtersAndSortsQuery: Ref<Record<string, string>>,
 ) {
   return useQuery({
-    queryKey: ["changes", timeRange, filtersAndSorts],
+    queryKey: ["changes", timeRange, filtersAndSortsQuery],
     staleTime: Infinity,
     shallow: true,
     placeholderData: (data) => data,
@@ -20,7 +20,7 @@ export default function useChangesQuery(
       // temp
 
       const response = await client.api.changes.$get({
-        query: { range: timeRange.value, ...filtersAndSorts.value },
+        query: { range: timeRange.value, ...filtersAndSortsQuery.value },
       });
 
       const data = await response.json();

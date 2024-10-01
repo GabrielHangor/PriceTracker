@@ -6,11 +6,13 @@ import prisma from "prisma/client.js";
 
 const changesRouter = new Hono()
   .get("/", zValidator("query", changesQuerySchema), async (c) => {
-    const { range, page, pageSize } = c.req.valid("query");
+    const { range, page, pageSize, sortField, sortOrder } = c.req.valid("query");
+
+    const orderBy = sortField && sortOrder ? { [sortField]: sortOrder } : undefined;
 
     const getChangesQuery = prisma.priceChange.findMany({
       where: { timeRange: range, deltaPercent: { not: 0 } },
-      orderBy: { deltaPercent: "desc" },
+      orderBy: orderBy ?? { deltaPercent: "desc" },
       include: {
         product: {
           select: { name: true, imageUrl: true, category: true, seller: { select: { name: true } } },

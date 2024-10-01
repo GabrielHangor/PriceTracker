@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { TimeRange } from "../../../server/src/types";
 import useChangesQuery from "@/queries/useChangesQuery";
 import Card from "primevue/card";
@@ -29,19 +29,12 @@ import useDataTableFiltersAndSorts from "@/composables/useDataTableFiltersAndSor
 
 const timeRange = ref(TimeRange.DAILY);
 
-const { filtersAndSortsModel } = useDataTableFiltersAndSorts([timeRange]);
-
-const filtersAndSortsRequestQuery = computed(() => {
-  return {
-    page: filtersAndSortsModel.value.page,
-    pageSize: filtersAndSortsModel.value.rows,
-  };
-});
+const { filtersAndSortsModel, filtersAndSortsQuery } = useDataTableFiltersAndSorts([timeRange]);
 
 const {
   data: paginatedChanges,
   isLoading: isChangesLoading,
   isFetching: isChangesFetching,
   error,
-} = useChangesQuery(timeRange, filtersAndSortsRequestQuery);
+} = useChangesQuery(timeRange, filtersAndSortsQuery);
 </script>
