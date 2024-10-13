@@ -4,13 +4,14 @@
 
     <Card :pt="{ body: '!pt-1' }">
       <template #content>
-        <ChangesListTableSkeleton v-if="isChangesLoading" />
+        <ChangesListTableSkeleton v-if="isChangesLoading || isFiltersLoading" />
         <ChangesListTable
-          v-else-if="paginatedChanges"
+          v-else-if="paginatedChanges && availableFilters"
           v-model:filters-and-sorts="filtersAndSortsModel"
           :is-loading="isChangesFetching"
           :paginatedChanges="paginatedChanges"
           :time-range="timeRange"
+          :available-filters="availableFilters"
         />
       </template>
     </Card>
@@ -26,6 +27,7 @@ import ChangesListTableSkeleton from "@/components/business/changesPage/ChangesL
 import ChangesListTable from "@/components/business/changesPage/ChangesListTable.vue";
 import ChangesTabBar from "@/components/business/changesPage/ChangesTabBar.vue";
 import useDataTableFiltersAndSorts from "@/composables/useDataTableFiltersAndSorts";
+import useChangesFiltersQuery from "@/queries/useChangesFiltersQuery";
 
 const timeRange = ref(TimeRange.DAILY);
 
@@ -37,4 +39,6 @@ const {
   isFetching: isChangesFetching,
   error,
 } = useChangesQuery(timeRange, filtersAndSortsQuery);
+
+const { data: availableFilters, isLoading: isFiltersLoading } = useChangesFiltersQuery(timeRange);
 </script>

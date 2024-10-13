@@ -12,7 +12,7 @@ export default function useDataTableFiltersAndSorts<T extends any[]>(
     sortField: undefined,
   };
 
-  const filtersAndSortsModel = ref<DataTableFiltersAndSortsModel>({ ...initialState });
+  const filtersAndSortsModel = ref<DataTableFiltersAndSortsModel>(initialState);
 
   const filtersAndSortsQuery = computed(() => {
     const queriesObj: Record<string, string> = {};
@@ -36,10 +36,10 @@ export default function useDataTableFiltersAndSorts<T extends any[]>(
   }
 
   function reset() {
-    filtersAndSortsModel.value = { ...initialState };
+    filtersAndSortsModel.value = initialState;
   }
 
-  return { filtersAndSortsModel, filtersAndSortsQuery };
+  return { filtersAndSortsModel, filtersAndSortsQuery, initialState };
 }
 
 export type DataTableFiltersAndSortsModel = Omit<

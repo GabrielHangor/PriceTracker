@@ -48,14 +48,14 @@ model PriceHistory {
 }
 
 model PriceChange {
-  id           Int      @id @default(autoincrement())
-  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId    Int
-  minPrice     Decimal
-  maxPrice     Decimal
-  timeRange    String
-  deltaPercent Decimal
-  updatedAt    DateTime @default(now()) @updatedAt
+  id            Int      @id @default(autoincrement())
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId     Int
+  previousPrice Decimal  @default(0)
+  currentPrice  Decimal  @default(0)
+  timeRange     String
+  deltaPercent  Decimal
+  updatedAt     DateTime @default(now()) @updatedAt
 
   @@unique([productId, timeRange])
 }

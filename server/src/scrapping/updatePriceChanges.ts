@@ -1,6 +1,7 @@
 import { DbPopulatingError } from "@/errors/errors.js";
 import { TimeRange } from "@/types.js";
-import type { PriceHistory, Product } from "@prisma/client";
+import type { Product } from "@prisma/client";
+import type { Decimal } from "@prisma/client/runtime/library";
 import prisma from "prisma/client.js";
 
 export async function updatePriceChanges() {
@@ -62,21 +63,26 @@ export async function updatePriceChanges() {
   }
 }
 
-function calculateChange(priceHistory: PriceHistory[], since: Date) {
-  const filteredHistory = priceHistory.filter((entry) => entry.date >= since);
+export function calculateChange(priceHistory: { date: Date; price: Decimal }[], since: Date) {
+  const sortedHistory = priceHistory.toSorted((a, b) => a.date.getTime() - b.date.getTime());
+  const filteredHistory = sortedHistory.filter((entry) => entry.date >= since);
 
   if (filteredHistory.length === 0) {
-    return { minPrice: 0, maxPrice: 0, deltaPercent: 0 };
+    return { previousPrice: 0, currentPrice: 0, deltaPercent: 0 };
   }
 
-  const prices = filteredHistory.map((entry) => entry.price.toNumber());
-  const minPrice = Math.min(...prices);
-  const maxPrice = Math.max(...prices);
-  const deltaPercent = ((maxPrice - minPrice) / minPrice) * 100;
+  const currentPrice = sortedHistory[sortedHistory.length - 1].price.toNumber();
+  const previousPrice = filteredHistory[0].price.toNumber();
+
+  if (previousPrice === 0) {
+    return { previousPrice, currentPrice, deltaPercent: 0 };
+  }
+
+  const deltaPercent = ((currentPrice - previousPrice) / previousPrice) * 100;
 
   return {
-    minPrice,
-    maxPrice,
-    deltaPercent: deltaPercent.toFixed(2),
+    previousPrice,
+    currentPrice,
+    deltaPercent: parseFloat(deltaPercent.toFixed(2)),
   };
 }

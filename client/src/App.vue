@@ -1,6 +1,6 @@
 <template>
   <AppHeader />
-  <main class="container mx-auto ">
+  <main class="px-4">
     <RouterView />
   </main>
 </template>

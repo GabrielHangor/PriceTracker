@@ -1,17 +1,19 @@
 <template>
-  <Menubar :model="items" class="container mx-auto">
-    <template #item="{ item }">
-      <RouterLink :to="{ name: item.name }" #default="{ isExactActive }">
-        <div class="flex gap-4 items-center p-2">
-          <span :class="[{ 'font-semibold': isExactActive }, item.icon]" />
-          <span>{{ item.label }}</span>
-        </div>
-      </RouterLink>
-    </template>
-    <template #end>
-      <Button :icon="PrimeIcons.SUN" outlined text rounded @click="toggleDarkMode" />
-    </template>
-  </Menubar>
+  <header class="px-4">
+    <Menubar :model="items" class="!px-4">
+      <template #item="{ item }">
+        <RouterLink :to="{ name: item.name }" #default="{ isExactActive }">
+          <div class="flex gap-4 items-center p-2">
+            <span :class="[{ 'font-semibold': isExactActive }, item.icon]" />
+            <span>{{ item.label }}</span>
+          </div>
+        </RouterLink>
+      </template>
+      <template #end>
+        <Button :icon="PrimeIcons.SUN" outlined text rounded @click="toggleDarkMode" />
+      </template>
+    </Menubar>
+  </header>
 </template>
 
 <script setup lang="ts">
