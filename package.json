@@ -12,7 +12,7 @@
     "dev:client": "npm run dev --workspace=client",
     "dev:server": "npm run dev --workspace=server",
     "scrape": "npm run scrape --workspace=server",
-    "build": "npm run build --workspaces"
+    "build": "npm run build --workspace=client"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
