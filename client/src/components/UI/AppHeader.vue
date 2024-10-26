@@ -10,7 +10,7 @@
         </RouterLink>
       </template>
       <template #end>
-        <Button :icon="PrimeIcons.SUN" outlined text rounded @click="toggleDarkMode" />
+        <Button :icon="PrimeIcons.SUN"  outlined text rounded @click="toggleDarkMode" />
       </template>
     </Menubar>
   </header>
@@ -18,8 +18,7 @@
 
 <script setup lang="ts">
 import { PrimeIcons } from "@primevue/core";
-import Button from "primevue/button";
-import Menubar from "primevue/menubar";
+
 import type { MenuItem } from "primevue/menuitem";
 
 const items: MenuItem[] = [

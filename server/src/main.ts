@@ -9,7 +9,7 @@ const app = new Hono();
 
 app.use(compress());
 
-const apiRoutes = app
+export const apiRoutes = app
   .basePath("/api")
   .route("/categories", categories)
   .route("/products", products)
@@ -19,7 +19,7 @@ console.log(`Server is running on port ${process.env.PORT || 3000}`);
 
 serve({
   fetch: app.fetch,
-  port: process.env.PORT || 3000,
+  port: 3000,
 });
 
 export type AppType = typeof apiRoutes;

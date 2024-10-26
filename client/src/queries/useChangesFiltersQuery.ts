@@ -1,8 +1,8 @@
 import client from "@/apiClient";
 import { useQuery } from "@tanstack/vue-query";
 import type { InferResponseType } from "hono";
-import type { TimeRange } from "../../../server/src/types";
 import type { Ref } from "vue";
+import type { TimeRange } from "server/types";
 
 export default function useChangesFiltersQuery(timeRange: Ref<TimeRange>) {
   return useQuery({

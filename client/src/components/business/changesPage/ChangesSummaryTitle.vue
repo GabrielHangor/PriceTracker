@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { TimeRange } from "../../../../../server/src/types";
+import { TimeRange } from "server/types";
 
 const props = defineProps<{ timeRange: TimeRange }>();
 

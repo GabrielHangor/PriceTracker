@@ -3,11 +3,12 @@ import { URL } from "node:url";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueDevTools from "vite-plugin-vue-devtools";
-import checker from "vite-plugin-checker";
+import Components from "unplugin-vue-components/vite";
+import { PrimeVueResolver } from "@primevue/auto-import-resolver";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [checker({ vueTsc: { tsconfigPath: "./tsconfig.app.json" } }), vue(), vueDevTools()],
+  plugins: [vue(), vueDevTools(), Components({ dts: false, resolvers: [PrimeVueResolver()] })],
 
   server: {
     proxy: {

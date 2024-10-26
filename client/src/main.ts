@@ -8,7 +8,6 @@ import { VueQueryPlugin } from "@tanstack/vue-query";
 
 import "./style.css";
 import Tooltip from "primevue/tooltip";
-import type { ColumnFilterMatchModeOptions } from "primevue/column";
 
 const app = createApp(App);
 

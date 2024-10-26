@@ -1,6 +1,5 @@
-import type { AppType } from "server/src/main";
-import { hc } from "hono/client";
+import { honoClient } from "server/hc";
 
-const client = hc<AppType>("/");
+const client = honoClient("");
 
 export default client;

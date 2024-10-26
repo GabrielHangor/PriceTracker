@@ -20,14 +20,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { TimeRange } from "../../../server/src/types";
 import useChangesQuery from "@/queries/useChangesQuery";
-import Card from "primevue/card";
 import ChangesListTableSkeleton from "@/components/business/changesPage/ChangesListTableSkeleton.vue";
 import ChangesListTable from "@/components/business/changesPage/ChangesListTable.vue";
 import ChangesTabBar from "@/components/business/changesPage/ChangesTabBar.vue";
 import useDataTableFiltersAndSorts from "@/composables/useDataTableFiltersAndSorts";
 import useChangesFiltersQuery from "@/queries/useChangesFiltersQuery";
+import { TimeRange } from "server/types";
 
 const timeRange = ref(TimeRange.DAILY);
 

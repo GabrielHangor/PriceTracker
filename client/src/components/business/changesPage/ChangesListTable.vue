@@ -172,20 +172,16 @@
 import ChangesSummary from "@/components/business/changesPage/ChangesSummary.vue";
 import ChangesSummaryTitle from "@/components/business/changesPage/ChangesSummaryTitle.vue";
 import type { Changes } from "@/queries/useChangesQuery";
-import Column from "primevue/column";
 import DataTable, {
   type DataTableFilterMetaData,
   type DataTablePageEvent,
   type DataTableSortEvent,
 } from "primevue/datatable";
-import Image from "primevue/image";
 import type { DataTableFiltersAndSortsModel } from "@/composables/useDataTableFiltersAndSorts";
-import Select from "primevue/select";
 import { computed, shallowRef, watch } from "vue";
 import type { AvailableChangesFilters } from "@/queries/useChangesFiltersQuery";
-import Slider from "primevue/slider";
 import debounce from "@/utils/debounce";
-import type { TimeRange } from "server/src/types";
+import type { TimeRange } from "server/types";
 
 const props = defineProps<{
   paginatedChanges: Changes;

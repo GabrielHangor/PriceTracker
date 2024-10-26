@@ -10,7 +10,7 @@
 import Tabs from "primevue/tabs";
 import TabList from "primevue/tablist";
 import Tab from "primevue/tab";
-import { TimeRange } from "../../../../../server/src/types";
+import { TimeRange } from "server/types";
 
 const modelValue = defineModel<TimeRange>("timeRange", { required: true });
 

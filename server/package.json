@@ -2,10 +2,26 @@
   "name": "server",
   "version": "1.0.0",
   "type": "module",
+  "exports": {
+    "./hc": {
+      "import": {
+        "default": "./dist/src/hc.js",
+        "types": "./dist/src/hc.d.ts"
+      }
+    },
+    "./types": {
+      "import": {
+        "default": "./dist/src/types.js",
+        "types": "./dist/src/types.d.ts"
+      }
+    }
+  },
   "scripts": {
     "seed": "tsx prisma/seed.ts",
     "scrape": "tsx src/scrapping/index.ts",
-    "dev": "tsx watch src/main.ts"
+    "dev": "npm-run-all2 --parallel dev:main dev:tsc",
+    "dev:main": "tsx watch src/main.ts",
+    "dev:tsc": "tsc -p tsconfig.build.json --watch"
   },
   "keywords": [],
   "author": "",
