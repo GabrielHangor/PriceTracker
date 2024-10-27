@@ -15,19 +15,19 @@ class EmailService {
     this.transporter = nodemailer.createTransport({
       service: "yandex",
       auth: {
-        user: "gabrielhabibulin@yandex.ru",
-        pass: "kypviniicxslibme",
-      },
+        user: "test",
+        pass: "test"
+      }
     });
   }
 
   async sendEmail(options: MailOptions): Promise<void> {
     const mailOptions = {
-      from: 'gabrielhabibulin@yandex.ru',
+      from: "gabrielhabibulin@yandex.ru",
       to: options.to,
       subject: options.subject,
       text: options.text,
-      html: options.html,
+      html: options.html
     };
 
     try {
